@@ -26,8 +26,7 @@ namespace ProjectMgt.Models
         public string ApplyDate { get; set; }
         public string Memo { get; set; }
         public string FileName { get; set; }
-        public string Week { get; set; }
-        public string IsNormal { get; set; }
+        public bool IsNormal { get; set; }
         public Guid IdWeek { get; set; }
         public DateTime CreatedAt { get; set; }
     }

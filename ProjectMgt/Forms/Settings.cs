@@ -75,6 +75,13 @@ namespace ProjectMgt.Forms
 
         private void btCancelWeek_Click(object sender, EventArgs e)
         {
+            if (saveBtMode != null)
+            {
+                groupPanel2.Text = "Add";
+                groupPanel2.ColorTable = DevComponents.DotNetBar.Controls.ePanelColorTable.Default;
+                idw = null;
+                saveBtMode = null;
+            }
             txtbxWeekName.Clear();
             txtbxNoteWeek.Clear();
             dtStartDate.ResetValue();

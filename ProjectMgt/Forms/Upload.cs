@@ -53,7 +53,7 @@ namespace ProjectMgt.Forms
         private void Upload_Load(object sender, EventArgs e)
         {
             var collection = DbContext.GetInstance().GetCollection<WeekSetting>();
-            var weeks = collection.FindAll().ToList();
+            var weeks = collection.FindAll().OrderByDescending(a => a.StartDate).ToList();
             foreach (var week in weeks)
             {
                 ComboItem item = new ComboItem(week.Week + " " + week.StartDate.ToShortDateString() + " - " + week.EndDate.ToShortDateString() ) { Value = week.id };
@@ -65,9 +65,10 @@ namespace ProjectMgt.Forms
         private void btUpload_Click(object sender, EventArgs e)
         {
             var filePath = txtbxPath.Text;
-            var collection = DbContext.GetInstance().GetCollection<ProjectList>();
-            var dd = cbWeek.SelectedValue;
-            if ((filePath == null || filePath == "") && cbWeek == null)
+            var projColl = DbContext.GetInstance().GetCollection<ProjectList>();
+            var weekColl = DbContext.GetInstance().GetCollection<WeekSetting>();
+            var idwx = ((ComboItem)cbWeek.SelectedItem);
+            if ((filePath == null || filePath == "") || idwx == null)
             {
                 MessageBox.Show("Please select file & week first!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -97,8 +98,8 @@ namespace ProjectMgt.Forms
                                     kind.Add("");
                                 }
                             }
-                            var idw = Guid.Parse(cbWeek.SelectedValue.ToString());
-                            var week = collection.FindById(idw);
+                            var idw = Guid.Parse(idwx.Value.ToString());
+                            var week = weekColl.FindById(idw);
                             ProjectList pl = new ProjectList()
                             {
                                 System = kind[0],
@@ -116,11 +117,11 @@ namespace ProjectMgt.Forms
                                 ApplyDate = kind[12],
                                 Memo = kind[13],
                                 FileName = fileName,
-                                Week = week.Week,
+                                IsNormal = true,
                                 IdWeek = idw,
                                 CreatedAt = DateTime.Now
                             };
-                            collection.Insert(pl);
+                            projColl.Insert(pl);
                             kind.Clear();
                             Thread.Sleep(1); //avoid same time insert 
                             if (ws.Cells[row + 1, 7].Value == null)
@@ -130,6 +131,7 @@ namespace ProjectMgt.Forms
                         }
                     }
                     MessageBox.Show("File " + fileName + " has been uploaded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
@@ -138,5 +140,7 @@ namespace ProjectMgt.Forms
 
             }
         }
+
+        
     }
 }
