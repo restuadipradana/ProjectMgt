@@ -53,7 +53,7 @@ namespace ProjectMgt.Forms
         private void Upload_Load(object sender, EventArgs e)
         {
             var collection = DbContext.GetInstance().GetCollection<WeekSetting>();
-            var weeks = collection.FindAll().OrderByDescending(a => a.StartDate).ToList();
+            var weeks = collection.Find(x => x.isUpload == false).OrderByDescending(a => a.StartDate).ToList();
             foreach (var week in weeks)
             {
                 ComboItem item = new ComboItem(week.Week + " " + week.StartDate.ToShortDateString() + " - " + week.EndDate.ToShortDateString() ) { Value = week.id };
@@ -67,7 +67,8 @@ namespace ProjectMgt.Forms
             var filePath = txtbxPath.Text;
             var projColl = DbContext.GetInstance().GetCollection<ProjectList>();
             var weekColl = DbContext.GetInstance().GetCollection<WeekSetting>();
-            var idwx = ((ComboItem)cbWeek.SelectedItem);
+            var idwx = ((ComboItem)cbWeek.SelectedItem); //guid week
+            var idw = Guid.Parse(idwx.Value.ToString());
             if ((filePath == null || filePath == "") || idwx == null)
             {
                 MessageBox.Show("Please select file & week first!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -98,8 +99,8 @@ namespace ProjectMgt.Forms
                                     kind.Add("");
                                 }
                             }
-                            var idw = Guid.Parse(idwx.Value.ToString());
-                            var week = weekColl.FindById(idw);
+                            
+                            
                             ProjectList pl = new ProjectList()
                             {
                                 System = kind[0],
@@ -130,6 +131,9 @@ namespace ProjectMgt.Forms
                             }
                         }
                     }
+                    var week = weekColl.FindById(idw);
+                    week.isUpload = true;
+                    weekColl.Update(idw, week);
                     MessageBox.Show("File " + fileName + " has been uploaded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }

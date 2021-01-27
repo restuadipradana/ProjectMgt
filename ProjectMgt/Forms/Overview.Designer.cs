@@ -75,6 +75,7 @@
             this.btSettings = new DevComponents.DotNetBar.ButtonX();
             this.btSummary = new DevComponents.DotNetBar.ButtonX();
             this.btRefresh = new DevComponents.DotNetBar.ButtonX();
+            this.btReport = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel1.SuspendLayout();
@@ -414,10 +415,10 @@
             // btUploadDialog
             // 
             this.btUploadDialog.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btUploadDialog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btUploadDialog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btUploadDialog.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btUploadDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btUploadDialog.Location = new System.Drawing.Point(12, 644);
+            this.btUploadDialog.Location = new System.Drawing.Point(1033, 644);
             this.btUploadDialog.Name = "btUploadDialog";
             this.btUploadDialog.Size = new System.Drawing.Size(96, 25);
             this.btUploadDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
@@ -428,10 +429,10 @@
             // btSettings
             // 
             this.btSettings.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSettings.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btSettings.Location = new System.Drawing.Point(139, 644);
+            this.btSettings.Location = new System.Drawing.Point(1135, 643);
             this.btSettings.Name = "btSettings";
             this.btSettings.Size = new System.Drawing.Size(96, 25);
             this.btSettings.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -442,28 +443,43 @@
             // btSummary
             // 
             this.btSummary.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btSummary.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btSummary.Location = new System.Drawing.Point(905, 644);
+            this.btSummary.Location = new System.Drawing.Point(78, 643);
             this.btSummary.Name = "btSummary";
             this.btSummary.Size = new System.Drawing.Size(138, 25);
             this.btSummary.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btSummary.TabIndex = 5;
             this.btSummary.Text = "Project Summary";
+            this.btSummary.Click += new System.EventHandler(this.btSummary_Click);
             // 
             // btRefresh
             // 
             this.btRefresh.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btRefresh.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btRefresh.Location = new System.Drawing.Point(300, 645);
+            this.btRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRefresh.Location = new System.Drawing.Point(12, 643);
             this.btRefresh.Name = "btRefresh";
-            this.btRefresh.Size = new System.Drawing.Size(60, 23);
+            this.btRefresh.Size = new System.Drawing.Size(60, 25);
             this.btRefresh.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btRefresh.TabIndex = 6;
             this.btRefresh.Text = "Refresh";
             this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
+            // 
+            // btReport
+            // 
+            this.btReport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btReport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReport.Location = new System.Drawing.Point(222, 643);
+            this.btReport.Name = "btReport";
+            this.btReport.Size = new System.Drawing.Size(145, 25);
+            this.btReport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btReport.TabIndex = 7;
+            this.btReport.Text = "Report";
             // 
             // Overview
             // 
@@ -471,6 +487,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1243, 681);
+            this.Controls.Add(this.btReport);
             this.Controls.Add(this.btRefresh);
             this.Controls.Add(this.btSummary);
             this.Controls.Add(this.btSettings);
@@ -539,5 +556,6 @@
         private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn32;
         private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn33;
         private DevComponents.DotNetBar.ButtonX btRefresh;
+        private DevComponents.DotNetBar.ButtonX btReport;
     }
 }

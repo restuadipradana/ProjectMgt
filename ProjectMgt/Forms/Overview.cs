@@ -1,5 +1,6 @@
 ﻿using DevComponents.DotNetBar.SuperGrid;
 using OfficeOpenXml;
+using ProjectMgt.Helpers;
 using ProjectMgt.Models;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,19 @@ namespace ProjectMgt.Forms
 
         private void btRefresh_Click(object sender, EventArgs e)
         {
+            var aa = Convert.ToInt32(DateTime.Now.Year);
             Get1List();
+            foreach (WeekRange wr in WkRange.GetWeekRange(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)))
+            {
+                Console.WriteLine("{0} {1} {2} {3}", wr.WeekNo, wr.MM, wr.Start.Date.ToShortDateString(), wr.End.ToShortDateString());
+            }
+            Console.ReadLine();
+        }
+
+        private void btSummary_Click(object sender, EventArgs e)
+        {
+            ProjectSummary projSum = new ProjectSummary();
+            projSum.ShowDialog();
         }
 
 

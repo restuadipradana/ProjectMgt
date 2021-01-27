@@ -101,6 +101,7 @@
     <Compile Include="Forms\Upload.Designer.cs">
       <DependentUpon>Upload.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\WkRange.cs" />
     <Compile Include="Models\WeekSetting.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\ProjectList.cs" />

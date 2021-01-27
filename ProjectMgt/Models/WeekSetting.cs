@@ -12,9 +12,11 @@ namespace ProjectMgt.Models
         [BsonId]
         public Guid id { get; set; }
         public string Week { get; set; }
+        public int Year { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Remark { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool isUpload { get; set; }
     }
 }

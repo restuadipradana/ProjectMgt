@@ -47,6 +47,10 @@
             this.txtbxWeekName = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.dtEndDate = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
             this.dtStartDate = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
+            this.btGenerateListWk = new DevComponents.DotNetBar.ButtonX();
+            this.textBoxX1 = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX5 = new DevComponents.DotNetBar.LabelX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
             this.groupPanel1.SuspendLayout();
             this.groupPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtEndDate)).BeginInit();
@@ -70,13 +74,12 @@
             this.sgWeek.Size = new System.Drawing.Size(597, 265);
             this.sgWeek.TabIndex = 0;
             this.sgWeek.Text = "superGridControl1";
-            this.sgWeek.CellClick += new System.EventHandler<DevComponents.DotNetBar.SuperGrid.GridCellClickEventArgs>(this.sgWeek_CellClick);
             // 
             // gridColumn1
             // 
             this.gridColumn1.AllowEdit = false;
             this.gridColumn1.Name = "Week";
-            this.gridColumn1.Width = 50;
+            this.gridColumn1.Width = 60;
             // 
             // gridColumn2
             // 
@@ -94,7 +97,7 @@
             // 
             this.gridColumn4.AllowEdit = false;
             this.gridColumn4.Name = "Note";
-            this.gridColumn4.Width = 170;
+            this.gridColumn4.Width = 160;
             // 
             // edit
             // 
@@ -172,7 +175,7 @@
             this.groupPanel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupPanel2.Location = new System.Drawing.Point(12, 12);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(609, 177);
+            this.groupPanel2.Size = new System.Drawing.Size(615, 177);
             // 
             // 
             // 
@@ -395,11 +398,66 @@
             this.dtStartDate.TabIndex = 0;
             this.dtStartDate.ValueChanged += new System.EventHandler(this.dtStartDate_ValueChanged);
             // 
+            // btGenerateListWk
+            // 
+            this.btGenerateListWk.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btGenerateListWk.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btGenerateListWk.Location = new System.Drawing.Point(546, 531);
+            this.btGenerateListWk.Name = "btGenerateListWk";
+            this.btGenerateListWk.Size = new System.Drawing.Size(75, 23);
+            this.btGenerateListWk.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btGenerateListWk.TabIndex = 3;
+            this.btGenerateListWk.Text = "Generate";
+            this.btGenerateListWk.Click += new System.EventHandler(this.btGenerateListWk_Click);
+            // 
+            // textBoxX1
+            // 
+            // 
+            // 
+            // 
+            this.textBoxX1.Border.Class = "TextBoxBorder";
+            this.textBoxX1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.textBoxX1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxX1.Location = new System.Drawing.Point(470, 531);
+            this.textBoxX1.Name = "textBoxX1";
+            this.textBoxX1.PreventEnterBeep = true;
+            this.textBoxX1.Size = new System.Drawing.Size(70, 22);
+            this.textBoxX1.TabIndex = 4;
+            this.textBoxX1.TextChanged += new System.EventHandler(this.textBoxX1_TextChanged);
+            // 
+            // labelX5
+            // 
+            // 
+            // 
+            // 
+            this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX5.Location = new System.Drawing.Point(352, 530);
+            this.labelX5.Name = "labelX5";
+            this.labelX5.Size = new System.Drawing.Size(120, 23);
+            this.labelX5.TabIndex = 5;
+            this.labelX5.Text = "Type Week (ex. 2020) :";
+            // 
+            // labelX6
+            // 
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.Location = new System.Drawing.Point(470, 554);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(126, 25);
+            this.labelX6.TabIndex = 6;
+            this.labelX6.Text = "labelX6";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(639, 537);
+            this.ClientSize = new System.Drawing.Size(639, 597);
+            this.Controls.Add(this.labelX6);
+            this.Controls.Add(this.labelX5);
+            this.Controls.Add(this.textBoxX1);
+            this.Controls.Add(this.btGenerateListWk);
             this.Controls.Add(this.groupPanel2);
             this.Controls.Add(this.groupPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -438,5 +496,9 @@
         private DevComponents.DotNetBar.LabelX labelX1;
         private DevComponents.DotNetBar.ButtonX btCancelWeek;
         private DevComponents.DotNetBar.ButtonX btSaveWeek;
+        private DevComponents.DotNetBar.ButtonX btGenerateListWk;
+        private DevComponents.DotNetBar.Controls.TextBoxX textBoxX1;
+        private DevComponents.DotNetBar.LabelX labelX5;
+        private DevComponents.DotNetBar.LabelX labelX6;
     }
 }

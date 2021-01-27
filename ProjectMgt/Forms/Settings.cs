@@ -1,6 +1,7 @@
 ﻿using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.SuperGrid;
 using DevComponents.DotNetBar.SuperGrid.Style;
+using ProjectMgt.Helpers;
 using ProjectMgt.Models;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,15 @@ namespace ProjectMgt.Forms
         private void Settings_Load(object sender, EventArgs e)
         {
             GetWeek();
+            btSaveWeek.Enabled = false;
+            labelX6.Text = "";
+            btGenerateListWk.Enabled = false;
         }
 
         private Guid? idw;
         private string saveBtMode;
+        private int cntAdded;
+        private int cntIgnore;
 
         private void btSaveWeek_Click(object sender, EventArgs e)
         {
@@ -145,6 +151,7 @@ namespace ProjectMgt.Forms
             }
         }
 
+        //Cell Click event = disable
         private void sgWeek_CellClick(object sender, GridCellClickEventArgs e)
         {
             var a = e.GridCell.ColumnIndex;
@@ -167,6 +174,62 @@ namespace ProjectMgt.Forms
 
 
             
+        }
+
+        private void btGenerateListWk_Click(object sender, EventArgs e)
+        {
+            cntAdded = 0;
+            cntIgnore = 0;
+            var collection = DbContext.GetInstance().GetCollection<WeekSetting>();
+            var currentYear = Convert.ToInt32(textBoxX1.Text);// Convert.ToInt32(DateTime.Now.Year);
+            foreach (WeekRange wr in WkRange.GetWeekRange(new DateTime(currentYear, 01, 01), new DateTime(currentYear, 12, 31)))
+            {
+                Console.WriteLine("{0} {1} {2} {3}", wr.WeekNo, wr.MM, wr.Start.Date.ToShortDateString(), wr.End.ToShortDateString());
+
+                
+                var weeks = (from a in collection.Find(x => x.StartDate == wr.Start.Date) select a).ToList();
+                if (weeks.Count == 0)
+                {
+                    WeekSetting weekSetting = new WeekSetting()
+                    {
+                        Week = "W" + wr.WeekNo + " " + currentYear,
+                        Year = currentYear,
+                        StartDate = wr.Start,
+                        EndDate = wr.End,
+                        Remark = "",
+                        CreatedAt = DateTime.Now,
+                        isUpload = false
+                    };
+                    collection.Insert(weekSetting);
+                    cntAdded++;
+                }
+                else
+                {
+                    cntIgnore++;
+                }
+            }
+            MessageBox.Show("Success to add list week. \n Added: " + cntAdded + "\n Ignore: " + cntIgnore, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Console.ReadLine();
+            GetWeek();
+        }
+
+        private void textBoxX1_TextChanged(object sender, EventArgs e)
+        {
+            
+            if (textBoxX1.Text.Length == 4 && textBoxX1.Text.StartsWith("20") && int.TryParse(textBoxX1.Text, out int parsedValue))
+            {
+                btGenerateListWk.Enabled = true;
+                labelX6.Text = "";
+            }
+            else if (textBoxX1.Text.Length == 0)
+            {
+                labelX6.Text = "";
+            }
+            else
+            {
+                btGenerateListWk.Enabled = false;
+                labelX6.Text = "Enter a valid year";
+            }
         }
     }
 }
