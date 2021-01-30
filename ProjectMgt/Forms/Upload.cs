@@ -68,7 +68,7 @@ namespace ProjectMgt.Forms
             var projColl = DbContext.GetInstance().GetCollection<ProjectList>();
             var weekColl = DbContext.GetInstance().GetCollection<WeekSetting>();
             var idwx = ((ComboItem)cbWeek.SelectedItem); //guid week
-            var idw = Guid.Parse(idwx.Value.ToString());
+            
             if ((filePath == null || filePath == "") || idwx == null)
             {
                 MessageBox.Show("Please select file & week first!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,6 +77,7 @@ namespace ProjectMgt.Forms
             {
                 try
                 {
+                    var idw = Guid.Parse(idwx.Value.ToString());
                     var fileName = Path.GetFileName(filePath);
                     var excelFile = new FileInfo(filePath);
                     using (var p = new ExcelPackage(excelFile))

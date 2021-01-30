@@ -35,8 +35,6 @@
             this.gridColumn4 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn5 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
-            this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.tabL1 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.sgL2 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
             this.gridColumn6 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
@@ -54,6 +52,8 @@
             this.gridColumn18 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn15 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.tabL2 = new DevComponents.DotNetBar.SuperTabItem();
+            this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.tabL1 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel3 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.sgL3 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
             this.gridColumn20 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
@@ -78,8 +78,8 @@
             this.btReport = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
-            this.superTabControlPanel1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
+            this.superTabControlPanel1.SuspendLayout();
             this.superTabControlPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,8 +152,8 @@
             this.superTabControl1.ControlBox.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.superTabControl1.ControlBox.MenuBox,
             this.superTabControl1.ControlBox.CloseBox});
-            this.superTabControl1.Controls.Add(this.superTabControlPanel1);
             this.superTabControl1.Controls.Add(this.superTabControlPanel2);
+            this.superTabControl1.Controls.Add(this.superTabControlPanel1);
             this.superTabControl1.Controls.Add(this.superTabControlPanel3);
             this.superTabControl1.Location = new System.Drawing.Point(12, 12);
             this.superTabControl1.Name = "superTabControl1";
@@ -169,24 +169,6 @@
             this.tabL3});
             this.superTabControl1.TabStyle = DevComponents.DotNetBar.eSuperTabStyle.VisualStudio2008Dock;
             this.superTabControl1.Text = "superTabControl1";
-            // 
-            // superTabControlPanel1
-            // 
-            this.superTabControlPanel1.Controls.Add(this.sgL1);
-            this.superTabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControlPanel1.Location = new System.Drawing.Point(0, 25);
-            this.superTabControlPanel1.Name = "superTabControlPanel1";
-            this.superTabControlPanel1.Size = new System.Drawing.Size(1219, 591);
-            this.superTabControlPanel1.TabIndex = 1;
-            this.superTabControlPanel1.TabItem = this.tabL1;
-            // 
-            // tabL1
-            // 
-            this.tabL1.AttachedControl = this.superTabControlPanel1;
-            this.tabL1.GlobalItem = false;
-            this.tabL1.Name = "tabL1";
-            this.tabL1.Text = "Project Overview";
-            this.tabL1.Click += new System.EventHandler(this.tabL1_Click);
             // 
             // superTabControlPanel2
             // 
@@ -227,6 +209,7 @@
             this.sgL2.TabIndex = 0;
             this.sgL2.Text = "superGridControl1";
             this.sgL2.CellDoubleClick += new System.EventHandler<DevComponents.DotNetBar.SuperGrid.GridCellDoubleClickEventArgs>(this.sgL2_CellDoubleClick);
+            this.sgL2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sgL2_MouseClick);
             // 
             // gridColumn6
             // 
@@ -300,6 +283,24 @@
             this.tabL2.Name = "tabL2";
             this.tabL2.Text = "SubOv";
             this.tabL2.Click += new System.EventHandler(this.tabL2_Click);
+            // 
+            // superTabControlPanel1
+            // 
+            this.superTabControlPanel1.Controls.Add(this.sgL1);
+            this.superTabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControlPanel1.Location = new System.Drawing.Point(0, 25);
+            this.superTabControlPanel1.Name = "superTabControlPanel1";
+            this.superTabControlPanel1.Size = new System.Drawing.Size(1219, 591);
+            this.superTabControlPanel1.TabIndex = 1;
+            this.superTabControlPanel1.TabItem = this.tabL1;
+            // 
+            // tabL1
+            // 
+            this.tabL1.AttachedControl = this.superTabControlPanel1;
+            this.tabL1.GlobalItem = false;
+            this.tabL1.Name = "tabL1";
+            this.tabL1.Text = "Project Overview";
+            this.tabL1.Click += new System.EventHandler(this.tabL1_Click);
             // 
             // superTabControlPanel3
             // 
@@ -479,7 +480,8 @@
             this.btReport.Size = new System.Drawing.Size(145, 25);
             this.btReport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btReport.TabIndex = 7;
-            this.btReport.Text = "Report";
+            this.btReport.Text = "Generate Report";
+            this.btReport.Click += new System.EventHandler(this.btReport_Click);
             // 
             // Overview
             // 
@@ -500,8 +502,8 @@
             this.Load += new System.EventHandler(this.Overview_Load);
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).EndInit();
             this.superTabControl1.ResumeLayout(false);
-            this.superTabControlPanel1.ResumeLayout(false);
             this.superTabControlPanel2.ResumeLayout(false);
+            this.superTabControlPanel1.ResumeLayout(false);
             this.superTabControlPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -20,9 +20,11 @@ namespace ProjectMgt.Forms
         }
 
         private Guid? idw;
+        private int lv;
 
         private void GetList()
         {
+            lv = 0;
             var collection = DbContext.GetInstance().GetCollection<WeekSetting>();
             sgProjSum.PrimaryGrid.Rows.Clear();
 
@@ -47,13 +49,39 @@ namespace ProjectMgt.Forms
 
         private void sgProjSum_CellClick(object sender, GridCellClickEventArgs e)
         {
+            var projColl = DbContext.GetInstance().GetCollection<ProjectList>();
+            var weekColl = DbContext.GetInstance().GetCollection<WeekSetting>();
             var a = e.GridCell.RowIndex;
-            idw = Guid.Parse(e.GridPanel.GetCell(a, 2).Value?.ToString());
-            GetListUpload();
+            var b = e.GridCell.ColumnIndex;
+            if (b == 1)
+            {
+                idw = Guid.Parse(e.GridPanel.GetCell(a, 2).Value?.ToString());
+                DialogResult dr = MessageBox.Show("Are you sure to delete " + e.GridPanel.GetCell(a, 0).Value.ToString() + "?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dr == DialogResult.Yes)
+                {
+                    projColl.Delete(x => x.IdWeek == idw);
+                    var wsid = weekColl.FindById(idw);
+                    wsid.isUpload = false; //get week available to upload
+                    weekColl.Update(idw, wsid);
+                    GetList();
+                    //do something
+                }
+                else if (dr == DialogResult.No)
+                {
+                    //do something else
+                }
+            }
+            else
+            {
+                idw = Guid.Parse(e.GridPanel.GetCell(a, 2).Value?.ToString());
+                GetListUpload();
+            }
+            
         }
 
         private void GetListUpload()
         {
+            lv = 1;
             var projColl = DbContext.GetInstance().GetCollection<ProjectList>();
             var weekColl = DbContext.GetInstance().GetCollection<WeekSetting>();
             sgProjSum.Visible = false;
@@ -88,6 +116,25 @@ namespace ProjectMgt.Forms
             }
             sgListUpload.DefaultVisualStyles.CellStyles.Default.AllowWrap = DevComponents.DotNetBar.SuperGrid.Style.Tbool.True;
 
+        }
+
+        private void btBack_Click(object sender, EventArgs e)
+        {
+            switch (lv)
+            {
+                case 0:
+                    this.Close();
+                    break;
+                case 1:
+                    sgListUpload.Visible = false;
+                    GetList();
+                    sgProjSum.Visible = true;
+                    sgListUpload.PrimaryGrid.Rows.Clear();
+                    break;
+                default:
+                    break;
+            }
+            
         }
     }
 }

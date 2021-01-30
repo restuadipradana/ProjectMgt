@@ -53,9 +53,15 @@ namespace ProjectMgt.Forms
 
         private void sgL2_CellDoubleClick(object sender, GridCellDoubleClickEventArgs e)
         {
-            var a = e.GridCell.RowIndex;
-            _id = Guid.Parse(e.GridPanel.GetCell(a, 13).Value?.ToString());
-            Get3List();
+            
+            try
+            {
+                var a = e.GridCell.RowIndex;
+                _id = Guid.Parse(e.GridPanel.GetCell(a, 13).Value?.ToString());
+                Get3List();
+            }
+            catch { }
+            
         }
 
         private void tabL2_Click(object sender, EventArgs e)
@@ -74,26 +80,203 @@ namespace ProjectMgt.Forms
             
         }
 
-        private void btRefresh_Click(object sender, EventArgs e)
-        {
-            var aa = Convert.ToInt32(DateTime.Now.Year);
-            Get1List();
-            foreach (WeekRange wr in WkRange.GetWeekRange(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)))
-            {
-                Console.WriteLine("{0} {1} {2} {3}", wr.WeekNo, wr.MM, wr.Start.Date.ToShortDateString(), wr.End.ToShortDateString());
-            }
-            Console.ReadLine();
-        }
-
         private void btSummary_Click(object sender, EventArgs e)
         {
             ProjectSummary projSum = new ProjectSummary();
             projSum.ShowDialog();
         }
 
+        private void btReport_Click(object sender, EventArgs e)
+        {
+            List<Reports> report = new List<Reports>();
+            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+            var weekCol = DbContext.GetInstance().GetCollection<WeekSetting>();
+            var getAll = projCol.FindAll();
+            //var getProjBySystem = getAll.GroupBy(x => x.System).Select(a => a.ToList()).ToList(); //-->get project per system
+            var getProj = getAll.GroupBy(x => x.System).Select(a => a.Key).ToList();
+
+            var activeWeek = weekCol.Find(x => x.isUpload == true).OrderByDescending(a => a.StartDate).ToList();
+
+            foreach (var week in activeWeek)
+            {
+                foreach (var proj in getProj)
+                {
+                    int cnt = getAll.Where(x => x.IdWeek == week.id).Where(x => x.System == proj).Count();
+                    report.Add(new Reports() { Week = week.Week, Date = week.StartDate.ToShortDateString() + " ~ " + week.EndDate.ToShortDateString(), System = proj, TotalProject = cnt });
+                }
+            }
+            var reports = report.ToList();
+
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Excel files (*.xlsx)|*.xlsx";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.FileName = "Report";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                {
+                    using (var package = new ExcelPackage())
+                    {
+                        var workSheet = package.Workbook.Worksheets.Add("Summary");
+                        workSheet.Cells["A2"].Value = "Weekly";
+                        workSheet.Cells["B2"].Value = "Date";
+                        workSheet.Cells["C2"].Value = "System";
+                        workSheet.Cells["D2"].Value = "Tot. Proj. per Week"; //當週筆數
+
+                        int row = 3;
+                        foreach (var reportx in reports)
+                        {
+                            workSheet.Cells["A" + row].Value = reportx.Week;
+                            workSheet.Cells["B" + row].Value = reportx.Date;
+                            workSheet.Cells["C" + row].Value = reportx.System;
+                            workSheet.Cells["D" + row].Value = reportx.TotalProject;
+                            row++;
+                        }
+                        workSheet.Cells.AutoFitColumns(0);
+                        workSheet.Cells[2, 1, 2, 4].AutoFilter = true;
+                        package.SaveAs(myStream);
+
+                    }
+                    myStream.Close();
+                }
+            }
+        }
+
+        private void btRefresh_Click(object sender, EventArgs e)
+        {
+            var aa = Convert.ToInt32(DateTime.Now.Year);
+            Get1List();
+            //foreach (WeekRange wr in WkRange.GetWeekRange(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)))
+            //{
+            //    Console.WriteLine("{0} {1} {2} {3}", wr.WeekNo, wr.MM, wr.Start.Date.ToShortDateString(), wr.End.ToShortDateString());
+            //}
+            //Console.ReadLine();
+
+            //var stlist = DbContext.GetInstance().GetCollection<StageList>();
+            //stlist.Update(Guid.Parse(stlist.Find(x => x.ParentCode == "910").Select(a => a.id).SingleOrDefault().ToString()), new StageList() { Stage = "待討論", StageEN = "To be discussed", Code = "900", ParentCode = "910" });
+            // *jgn dipake, hasilnya ngaco, harus di list in semua new stagelist() stlist.Update(Guid.Parse(stlist.Find(x => x.Code == "900").Select(a => a.id).SingleOrDefault().ToString()), new StageList() { ParentCode = "910" });
+            //stlist.Delete(x => x.ParentCode == "0");
+            //stlist.Insert(new StageList() { Stage = "立案", StageEN = "Register", Code = "000", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "立案 一", StageEN = "Register 1", Code = "001", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "立案 二", StageEN = "Register 2", Code = "002", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "立案 三", StageEN = "Register 3", Code = "003", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "立案 四", StageEN = "Register 4", Code = "004", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "立案 五", StageEN = "Register 5", Code = "005", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "待討論", StageEN = "To be discussed", Code = "900", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "分析", StageEN = "Evaluate", Code = "010", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "分析 一", StageEN = "Evaluate 1", Code = "011", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "分析 二", StageEN = "Evaluate 2", Code = "012", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "分析 三", StageEN = "Evaluate 3", Code = "013", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "分析 四", StageEN = "Evaluate 4", Code = "014", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "分析 五", StageEN = "Evaluate 5", Code = "015", ParentCode = "010" });
+            //stlist.Insert(new StageList() { Stage = "規格", StageEN = "Specification", Code = "020", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "規格 一", StageEN = "Specification 1", Code = "021", ParentCode = "020" });
+            //stlist.Insert(new StageList() { Stage = "規格 二", StageEN = "Specification 2", Code = "022", ParentCode = "020" });
+            //stlist.Insert(new StageList() { Stage = "規格 三", StageEN = "Specification 3", Code = "023", ParentCode = "020" });
+            //stlist.Insert(new StageList() { Stage = "規格 四", StageEN = "Specification 4", Code = "024", ParentCode = "020" });
+            //stlist.Insert(new StageList() { Stage = "規格 五", StageEN = "Specification 5", Code = "025", ParentCode = "020" });
+            //stlist.Insert(new StageList() { Stage = "開發", StageEN = "Development", Code = "030", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "開發 一", StageEN = "Development 1", Code = "031", ParentCode = "030" });
+            //stlist.Insert(new StageList() { Stage = "開發 二", StageEN = "Development 2", Code = "032", ParentCode = "030" });
+            //stlist.Insert(new StageList() { Stage = "開發 三", StageEN = "Development 3", Code = "033", ParentCode = "030" });
+            //stlist.Insert(new StageList() { Stage = "開發 四", StageEN = "Development 4", Code = "034", ParentCode = "030" });
+            //stlist.Insert(new StageList() { Stage = "開發 五", StageEN = "Development 5", Code = "035", ParentCode = "030" });
+            //stlist.Insert(new StageList() { Stage = "測試", StageEN = "Testing", Code = "040", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "測試 一", StageEN = "Testing 1", Code = "041", ParentCode = "040" });
+            //stlist.Insert(new StageList() { Stage = "測試 二", StageEN = "Testing 2", Code = "042", ParentCode = "040" });
+            //stlist.Insert(new StageList() { Stage = "測試 三", StageEN = "Testing 3", Code = "043", ParentCode = "040" });
+            //stlist.Insert(new StageList() { Stage = "測試 四", StageEN = "Testing 4", Code = "044", ParentCode = "040" });
+            //stlist.Insert(new StageList() { Stage = "測試 五", StageEN = "Testing 5", Code = "045", ParentCode = "040" });
+            //stlist.Insert(new StageList() { Stage = "上線", StageEN = "GoLive", Code = "050", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "上線 一", StageEN = "GoLiveg 1", Code = "051", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 二", StageEN = "GoLiveg 2", Code = "052", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 三", StageEN = "GoLiveg 3", Code = "053", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 四", StageEN = "GoLiveg 4", Code = "054", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 五", StageEN = "GoLiveg 5", Code = "055", ParentCode = "050" });
+
+        }
+
+        private void sgL2_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sss = sgL2.GetElementAt(new Point(e.X, e.Y));
+            var ass = sss.Parent;
+            
+            
+            if (e.Button == MouseButtons.Right && ass != null)
+            {
+                var ridx = sss.GridPanel.ActiveRow.RowIndex;
+                var idcell = sss.GridPanel.GetCell(ridx, 13).Value?.ToString();
+                _id = Guid.Parse(idcell);
+                var m = new ContextMenu();
+                m.MenuItems.Add(new MenuItem("Add new field", (o, args) => new Add(idcell).ShowDialog(this)));
+                m.MenuItems.Add(new MenuItem("Add", add_rowL2));
+                m.Show(sgL2, new Point(e.X, e.Y));
+            }
+
+
+
+
+            ////var sad = sss.SuperGrid.GetCell;
+            //GridCell gc = new GridCell();
+            //gc = sss.SuperGrid.ActiveCell;
+            //int a = Convert.ToInt32(gc.RowIndex);
+            //GridCellClickEventArgs gce = new GridCellClickEventArgs(sss.GridPanel, gc, e);
+            //var st = gce.GridPanel.RowIndex;
+            //var ss = gce.GridPanel.GetCell(a, 13).Value?.ToString();
+
+            //GridCellEventArgs gc = new GridCellEventArgs(sss.GridPanel, ass.GridPanel.GetCell);
+
+
+
+        }
+
+
 
         //--------
 
+        public void add_rowL2(object sender, EventArgs e)
+        {
+            Console.WriteLine("Clickdetdks Completed!");
+            var dt = DateTime.Now;
+            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+            var colweek = DbContext.GetInstance().GetCollection<WeekSetting>();
+            var l2 = projCol.FindById(_id);
+            var week = colweek.Find(x => x.StartDate <= dt && x.EndDate >= dt).SingleOrDefault();
+
+            GridRow row = new GridRow();
+            row.Cells.Add(new GridCell(l2.Applicant));
+            row.Cells.Add(new GridCell(l2.PIC));
+            row.Cells.Add(new GridCell(l2.ReqFormNo));
+            row.Cells.Add(new GridCell(l2.ReqFormDesc));
+            row.Cells.Add(new GridCell(l2.Stage));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(""));
+            row.Cells.Add(new GridCell(week.Week));
+            row.Cells.Add(new GridCell(dt.ToString()));
+            row.Cells.Add(new GridCell(""));
+            row.RowHeight = 0;
+            row.Cells[0].AllowEdit = true;
+            row.Cells[1].AllowEdit = true;
+            row.Cells[2].AllowEdit = false;
+            row.Cells[3].AllowEdit = false;
+            row.Cells[4].AllowEdit = true;
+            row.Cells[5].AllowEdit = true;
+            row.Cells[6].AllowEdit = true;
+            row.Cells[7].AllowEdit = true;
+            row.Cells[8].AllowEdit = true;
+            row.Cells[9].AllowEdit = true;
+            row.Cells[10].AllowEdit = true;
+            row.Cells[11].AllowEdit = true;
+            row.Cells[12].AllowEdit = true;
+            sgL2.PrimaryGrid.Rows.Add(row);
+        }
         private List<ProjectList> GetAll(int a)
         {
             var list = new List<ProjectList>();
@@ -160,7 +343,7 @@ namespace ProjectMgt.Forms
             return list;
         }
 
-        private void Get1List()
+        public void Get1List()
         {
             sgL1.PrimaryGrid.Rows.Clear();
             tabL2.Visible = false;
@@ -317,5 +500,13 @@ namespace ProjectMgt.Forms
         public string ITPIC { get; set; }
         public string RequestFrom { get; set; }
         public string Description { get; set; }
+    }
+
+    public class Reports
+    {
+        public string Week { get; set; }
+        public string Date { get; set; }
+        public string System { get; set; }
+        public int TotalProject { get; set; }
     }
 }
