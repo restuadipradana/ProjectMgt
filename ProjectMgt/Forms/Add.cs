@@ -60,29 +60,36 @@ namespace ProjectMgt.Forms
             var week = colweek.Find(x => x.StartDate <= dt && x.EndDate >= dt.Date).SingleOrDefault();
             if (week != null)
             {
-                ProjectList pl = new ProjectList()
+                if (stg != null)
                 {
-                    System = proj.System,
-                    ErrKind = proj.ErrKind,
-                    Desc = proj.Desc,
-                    Applicant = proj.Applicant,
-                    PIC = proj.PIC,
-                    ReqFormNo = proj.ReqFormNo,
-                    ReqFormDesc = proj.ReqFormDesc,
-                    Stage = stg.Value.ToString(),
-                    UserExpectedDate = tbUserExpectDate.Text,
-                    StageEstimateFinish = tbStageEstFinish.Text,
-                    StageActualFinish = tbStageActFinish.Text,
-                    TestDateEstimate = tbITGiveTestDate.Text,
-                    ApplyDate = tbApplyDate.Text,
-                    Memo = richTextBoxEx1.Text,
-                    FileName = "userinput",
-                    IsNormal = true,
-                    IdWeek = week.id,
-                    CreatedAt = DateTime.Now
-                };
-                projCol.Insert(pl);
-                this.Close();
+                    ProjectList pl = new ProjectList()
+                    {
+                        System = proj.System,
+                        ErrKind = proj.ErrKind,
+                        Desc = proj.Desc,
+                        Applicant = proj.Applicant,
+                        PIC = proj.PIC,
+                        ReqFormNo = proj.ReqFormNo,
+                        ReqFormDesc = proj.ReqFormDesc,
+                        Stage = stg.Value.ToString(),
+                        UserExpectedDate = tbUserExpectDate.Text,
+                        StageEstimateFinish = tbStageEstFinish.Text,
+                        StageActualFinish = tbStageActFinish.Text,
+                        TestDateEstimate = tbITGiveTestDate.Text,
+                        ApplyDate = tbApplyDate.Text,
+                        Memo = richTextBoxEx1.Text,
+                        FileName = "userinput",
+                        IsNormal = true,
+                        IdWeek = week.id,
+                        CreatedAt = DateTime.Now
+                    };
+                    projCol.Insert(pl);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Select Stage first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {

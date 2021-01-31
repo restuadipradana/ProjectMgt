@@ -94,15 +94,59 @@ namespace ProjectMgt.Forms
             var getAll = projCol.FindAll();
             //var getProjBySystem = getAll.GroupBy(x => x.System).Select(a => a.ToList()).ToList(); //-->get project per system
             var getProj = getAll.GroupBy(x => x.System).Select(a => a.Key).ToList();
-
+            var currentDt = DateTime.Now.Date;
             var activeWeek = weekCol.Find(x => x.isUpload == true).OrderByDescending(a => a.StartDate).ToList();
 
             foreach (var week in activeWeek)
             {
                 foreach (var proj in getProj)
                 {
-                    int cnt = getAll.Where(x => x.IdWeek == week.id).Where(x => x.System == proj).Count();
-                    report.Add(new Reports() { Week = week.Week, Date = week.StartDate.ToShortDateString() + " ~ " + week.EndDate.ToShortDateString(), System = proj, TotalProject = cnt });
+                    int errA = 0;
+                    int errB = 0;
+                    int errC = 0;
+                    var xPorj = getAll.Where(x => x.IdWeek == week.id).Where(x => x.System == proj);
+                    int cntProj = xPorj.Count();
+
+                    DateTime dt;
+                    DateTime getUED;
+                    DateTime getApplyDate;
+                    int cntErrA = 0;
+                    int cntErrB = 0;
+
+                    foreach (var get in xPorj)
+                    {
+                        //get error A
+                        if (DateTime.TryParse(get.ApplyDate, out dt))
+                        {
+                            getApplyDate = Convert.ToDateTime(get.ApplyDate);
+                            if (DateTime.TryParse(get.TestDateEstimate, out dt)) //kolom test date & apply date ada, cek test date lebih dari 2 minggu sejak apply date
+                            {
+                                getUED = Convert.ToDateTime(get.TestDateEstimate);
+                                if ((getUED - getApplyDate).TotalDays > 14)
+                                {
+                                    cntErrA++;
+                                }
+                            }
+                            else if ((currentDt - getApplyDate).TotalDays > 14) // kolom test date kosong tapi ada apply date, cek apply date lebih dr 2 minggu
+                            {
+                                cntErrA++;
+                            }
+                        }
+                        else //kolom apply date kosong
+                        {
+                            cntErrA++;
+                        }
+
+                        //get error b
+                        if (DateTime.TryParse(get.StageActualFinish, out dt))
+                        {
+                            cntErrB++;
+                        }
+                    }
+
+                    
+
+                    report.Add(new Reports() { Week = week.Week, Date = week.StartDate.ToShortDateString() + " ~ " + week.EndDate.ToShortDateString(), System = proj, TotalProject = cntProj, TotalErrorA = cntErrA, TotalErrorB = cntErrB });
                 }
             }
             var reports = report.ToList();
@@ -125,6 +169,8 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["B2"].Value = "Date";
                         workSheet.Cells["C2"].Value = "System";
                         workSheet.Cells["D2"].Value = "Tot. Proj. per Week"; //當週筆數
+                        workSheet.Cells["E2"].Value = "Error A"; // A.(進度)
+                        workSheet.Cells["F2"].Value = "Error B"; // B.(資料)
 
                         int row = 3;
                         foreach (var reportx in reports)
@@ -133,6 +179,8 @@ namespace ProjectMgt.Forms
                             workSheet.Cells["B" + row].Value = reportx.Date;
                             workSheet.Cells["C" + row].Value = reportx.System;
                             workSheet.Cells["D" + row].Value = reportx.TotalProject;
+                            workSheet.Cells["E" + row].Value = reportx.TotalErrorA;
+                            workSheet.Cells["F" + row].Value = reportx.TotalErrorB;
                             row++;
                         }
                         workSheet.Cells.AutoFitColumns(0);
@@ -149,6 +197,49 @@ namespace ProjectMgt.Forms
         {
             var aa = Convert.ToInt32(DateTime.Now.Year);
             Get1List();
+
+            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+            var get = projCol.Find(x => x.ReqFormNo == "SHC-R200900030").FirstOrDefault();
+            DateTime dt;
+            DateTime currentDt = DateTime.Now.Date;
+            DateTime getUED;
+            DateTime getApplyDate;
+            int cntErrA = 0;
+            int cntErrB = 0;
+
+            //get error A
+            if (DateTime.TryParse(get.ApplyDate, out dt))
+            {
+                getApplyDate = Convert.ToDateTime(get.ApplyDate);
+                if (DateTime.TryParse(get.TestDateEstimate, out dt)) //kolom test date & apply date ada, cek test date lebih dari 2 minggu sejak apply date
+                {
+                    getUED = Convert.ToDateTime(get.TestDateEstimate);
+                    if ((getUED - getApplyDate).TotalDays > 14)
+                    {
+                        cntErrA++;
+                    }
+                }
+                else if ((currentDt - getApplyDate).TotalDays > 14) // kolom test date kosong tapi ada apply date, cek apply date lebih dr 2 minggu
+                {
+                    cntErrA++;
+                }
+            }
+            else //kolom apply date kosong
+            {
+                cntErrA++;
+            }
+
+
+            //get error b
+            if(DateTime.TryParse(get.StageActualFinish, out dt))
+            {
+                cntErrB++;
+            }
+
+            //get error c
+
+            
+             
             //foreach (WeekRange wr in WkRange.GetWeekRange(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)))
             //{
             //    Console.WriteLine("{0} {1} {2} {3}", wr.WeekNo, wr.MM, wr.Start.Date.ToShortDateString(), wr.End.ToShortDateString());
@@ -165,7 +256,7 @@ namespace ProjectMgt.Forms
             //stlist.Insert(new StageList() { Stage = "立案 三", StageEN = "Register 3", Code = "003", ParentCode = "010" });
             //stlist.Insert(new StageList() { Stage = "立案 四", StageEN = "Register 4", Code = "004", ParentCode = "010" });
             //stlist.Insert(new StageList() { Stage = "立案 五", StageEN = "Register 5", Code = "005", ParentCode = "010" });
-            //stlist.Insert(new StageList() { Stage = "待討論", StageEN = "To be discussed", Code = "900", ParentCode = "0" });
+            //stlist.Insert(new StageList() { Stage = "待討論", StageEN = "To be discussed", Code = "900", ParentCode = "999" });
             //stlist.Insert(new StageList() { Stage = "分析", StageEN = "Evaluate", Code = "010", ParentCode = "0" });
             //stlist.Insert(new StageList() { Stage = "分析 一", StageEN = "Evaluate 1", Code = "011", ParentCode = "010" });
             //stlist.Insert(new StageList() { Stage = "分析 二", StageEN = "Evaluate 2", Code = "012", ParentCode = "010" });
@@ -191,11 +282,11 @@ namespace ProjectMgt.Forms
             //stlist.Insert(new StageList() { Stage = "測試 四", StageEN = "Testing 4", Code = "044", ParentCode = "040" });
             //stlist.Insert(new StageList() { Stage = "測試 五", StageEN = "Testing 5", Code = "045", ParentCode = "040" });
             //stlist.Insert(new StageList() { Stage = "上線", StageEN = "GoLive", Code = "050", ParentCode = "0" });
-            //stlist.Insert(new StageList() { Stage = "上線 一", StageEN = "GoLiveg 1", Code = "051", ParentCode = "050" });
-            //stlist.Insert(new StageList() { Stage = "上線 二", StageEN = "GoLiveg 2", Code = "052", ParentCode = "050" });
-            //stlist.Insert(new StageList() { Stage = "上線 三", StageEN = "GoLiveg 3", Code = "053", ParentCode = "050" });
-            //stlist.Insert(new StageList() { Stage = "上線 四", StageEN = "GoLiveg 4", Code = "054", ParentCode = "050" });
-            //stlist.Insert(new StageList() { Stage = "上線 五", StageEN = "GoLiveg 5", Code = "055", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 一", StageEN = "GoLive 1", Code = "051", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 二", StageEN = "GoLive 2", Code = "052", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 三", StageEN = "GoLive 3", Code = "053", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 四", StageEN = "GoLive 4", Code = "054", ParentCode = "050" });
+            //stlist.Insert(new StageList() { Stage = "上線 五", StageEN = "GoLive 5", Code = "055", ParentCode = "050" });
 
         }
 
@@ -508,5 +599,7 @@ namespace ProjectMgt.Forms
         public string Date { get; set; }
         public string System { get; set; }
         public int TotalProject { get; set; }
+        public int TotalErrorA { get; set; }
+        public int TotalErrorB { get; set; }
     }
 }
