@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 namespace ProjectMgt.Forms
 {
+    //THIS FORM IS FOR ADD, EDIT, OR DELETE EVERY USERINPUT DATA. 1 for add, 2 for edit or delete
     public partial class Add : Form
     {
         public Add()
@@ -21,20 +22,22 @@ namespace ProjectMgt.Forms
         }
 
         private Guid _id;
-        public Add(string idc) : this()
+        private int _kind;
+        public Add(string idc, int kind) : this()
         {
-               
-            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
-            var stgCol = DbContext.GetInstance().GetCollection<StageList>();
             Guid id = Guid.Parse(idc);
             _id = id;
+            _kind = kind;
+
+            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+            var stgCol = DbContext.GetInstance().GetCollection<StageList>();
+            
             var proj = projCol.FindById(id);
             var stgs = stgCol.FindAll().Where(x => x.Stage.Contains(proj.Stage.Substring(0, 2))).Where(x => x.ParentCode != "0").OrderBy(n => n.Code).ToList();
             if (stgs.Count == 0)
             {
                 stgs = stgCol.FindAll().Where(x => x.Stage.Contains(proj.Stage)).Where(x => x.ParentCode != "0").OrderBy(n => n.Code).ToList();
             }
-
 
             foreach (var stg in stgs)
             {
@@ -46,6 +49,17 @@ namespace ProjectMgt.Forms
             lbReqFormNo.Text = proj.ReqFormNo;
             lbReqFormDesc.Text = proj.ReqFormDesc;
             richTextBoxEx1.Text = proj.Memo;
+            btDelete.Visible = false;
+            if (_kind == 2)
+            {
+                tbUserExpectDate.Text = proj.UserExpectedDate;
+                tbStageEstFinish.Text = proj.StageEstimateFinish;
+                tbStageActFinish.Text = proj.StageActualFinish;
+                tbITGiveTestDate.Text = proj.TestDateEstimate;
+                tbApplyDate.Text = proj.ApplyDate;
+                btDelete.Visible = true;
+            }
+            
             
             
         }
@@ -83,8 +97,19 @@ namespace ProjectMgt.Forms
                         IdWeek = week.id,
                         CreatedAt = DateTime.Now
                     };
-                    projCol.Insert(pl);
-                    this.Close();
+                    if(_kind == 1)
+                    {
+                        projCol.Insert(pl);
+                        this.Close();
+                    }
+                    else
+                    {
+                        projCol.Update(_id, pl);
+                        this.Close();
+                    }
+                    //Overview ov = new Overview();
+                    //ov.Get2List();
+
                 }
                 else
                 {
@@ -96,6 +121,19 @@ namespace ProjectMgt.Forms
                 MessageBox.Show("Invalid Week, please generate week first in Setting", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void btDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure to delete this?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+            {
+                var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+                projCol.Delete(_id);
+                
+                this.Close();
+            }
+                
         }
     }
 }

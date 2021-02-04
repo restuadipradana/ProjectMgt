@@ -48,6 +48,7 @@
             this.lbReqFormDesc = new DevComponents.DotNetBar.LabelX();
             this.lbReqFormNo = new DevComponents.DotNetBar.LabelX();
             this.btSave = new DevComponents.DotNetBar.ButtonX();
+            this.btDelete = new DevComponents.DotNetBar.ButtonX();
             this.SuspendLayout();
             // 
             // richTextBoxEx1
@@ -303,11 +304,25 @@
             this.btSave.Text = "Save";
             this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
+            // btDelete
+            // 
+            this.btDelete.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btDelete.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btDelete.Location = new System.Drawing.Point(290, 497);
+            this.btDelete.Name = "btDelete";
+            this.btDelete.Size = new System.Drawing.Size(75, 23);
+            this.btDelete.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btDelete.TabIndex = 26;
+            this.btDelete.Text = "Delete";
+            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
+            // 
             // Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 623);
+            this.Controls.Add(this.btDelete);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.lbReqFormNo);
             this.Controls.Add(this.lbReqFormDesc);
@@ -327,7 +342,11 @@
             this.Controls.Add(this.tbStageEstFinish);
             this.Controls.Add(this.tbUserExpectDate);
             this.Controls.Add(this.richTextBoxEx1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Add";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add";
             this.ResumeLayout(false);
 
@@ -353,5 +372,6 @@
         private DevComponents.DotNetBar.LabelX lbReqFormDesc;
         private DevComponents.DotNetBar.LabelX lbReqFormNo;
         private DevComponents.DotNetBar.ButtonX btSave;
+        private DevComponents.DotNetBar.ButtonX btDelete;
     }
 }
