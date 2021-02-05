@@ -49,6 +49,7 @@
             this.lbReqFormNo = new DevComponents.DotNetBar.LabelX();
             this.btSave = new DevComponents.DotNetBar.ButtonX();
             this.btDelete = new DevComponents.DotNetBar.ButtonX();
+            this.labelX10 = new DevComponents.DotNetBar.LabelX();
             this.SuspendLayout();
             // 
             // richTextBoxEx1
@@ -317,11 +318,25 @@
             this.btDelete.Text = "Delete";
             this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
             // 
+            // labelX10
+            // 
+            // 
+            // 
+            // 
+            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX10.Location = new System.Drawing.Point(453, 126);
+            this.labelX10.Name = "labelX10";
+            this.labelX10.Size = new System.Drawing.Size(174, 23);
+            this.labelX10.TabIndex = 27;
+            this.labelX10.Text = "(mm/dd/yyyy)";
+            // 
             // Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 623);
+            this.Controls.Add(this.labelX10);
             this.Controls.Add(this.btDelete);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.lbReqFormNo);
@@ -373,5 +388,6 @@
         private DevComponents.DotNetBar.LabelX lbReqFormNo;
         private DevComponents.DotNetBar.ButtonX btSave;
         private DevComponents.DotNetBar.ButtonX btDelete;
+        private DevComponents.DotNetBar.LabelX labelX10;
     }
 }

@@ -560,11 +560,12 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["A2"].Value = "Weekly";
                         workSheet.Cells["B2"].Value = "Date";
                         workSheet.Cells["C2"].Value = "System";
-                        workSheet.Cells["D2"].Value = "Tot. Proj. per Week"; //當週筆數
-                        workSheet.Cells["E2"].Value = "Total Error"; //錯誤筆數
-                        workSheet.Cells["F2"].Value = "Error A"; // A.(進度)
-                        workSheet.Cells["G2"].Value = "Error B"; // B.(資料)
-                        workSheet.Cells["H2"].Value = "Error C"; // C.(格式)
+                        workSheet.Cells["D2"].Value = "當週筆數"; //當週筆數 Tot. Proj. per Week
+                        workSheet.Cells["E2"].Value = "錯誤筆數"; //錯誤筆數 Total Error
+                        workSheet.Cells["F2"].Value = "A.(進度)"; // A.(進度) Error A
+                        workSheet.Cells["G2"].Value = "B.(資料)"; // B.(資料) Error B
+                        workSheet.Cells["H2"].Value = "C.(格式)"; // C.(格式) Error C
+                        workSheet.Cells["I2"].Value = "D.(更改)"; // D.(更改) Error D
 
                         int row = 3;
                         foreach (var reportx in reports)
@@ -579,8 +580,26 @@ namespace ProjectMgt.Forms
                             workSheet.Cells["H" + row].Value = reportx.TotalErrorC;
                             row++;
                         }
+                        workSheet.Cells["C" + row].Value = "Total";
+                        workSheet.Cells["D" + row].Formula = "SUM(D3:D" + (row - 1) + ")";
+                        workSheet.Cells["F" + row].Formula = "SUM(F3:F" + (row - 1) + ")";
+                        workSheet.Cells["G" + row].Formula = "SUM(G3:G" + (row - 1) + ")";
+                        workSheet.Cells["H" + row].Formula = "SUM(H3:H" + (row - 1) + ")";
+                        workSheet.Cells["I" + row].Formula = "SUM(I3:I" + (row - 1) + ")";
+                        workSheet.Cells["E" + row].Formula = "SUM(F" + row + ":I" + row + ")";
+                        workSheet.Cells[row, 3, row, 9].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        workSheet.Cells[row, 3, row, 9].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
+                        workSheet.Cells["F" + (row + 1)].Formula = "F" + row + "/E" + row;
+                        workSheet.Cells["G" + (row + 1)].Formula = "G" + row + "/E" + row;
+                        workSheet.Cells["H" + (row + 1)].Formula = "H" + row + "/E" + row;
+                        workSheet.Cells["I" + (row + 1)].Formula = "I" + row + "/E" + row;
+                        workSheet.Cells["E" + (row + 1)].Formula = "SUM(F" + (row + 1) + ":I" + (row + 1) + ")";
+                        workSheet.Cells[(row + 1), 5, (row + 1), 9].Style.Numberformat.Format = "0%";
+                        
                         workSheet.Cells.AutoFitColumns(0);
-                        workSheet.Cells[2, 1, 2, 8].AutoFilter = true;
+                        workSheet.Cells[2, 1, 2, 3].AutoFilter = true;
+                        workSheet.View.FreezePanes(3, 4);
                         package.SaveAs(myStream);
 
                     }
@@ -646,50 +665,50 @@ namespace ProjectMgt.Forms
         private void TestArea()
         {
             
-            DateTime dt;
-            //DateTime ndt = new DateTime(2020, 12, 6);
-            var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
-            var weekCol = DbContext.GetInstance().GetCollection<WeekSetting>();
-            var wek = weekCol.FindAll().OrderBy(x => x.StartDate); //find by wek.starDtae > 
-            var get = projCol.Find(x => x.ReqFormNo == "SHC-R201000007" && x.ReqFormDesc == "HP IE32資料庫調整").ToList(); // find from xProj, where xProj.week < week foreach
-            var listTestDate = (from a in get join b in wek on a.IdWeek equals b.id  orderby b.StartDate ascending select new { TestDate = a.TestDateEstimate,  b.Week}).ToList();
-            DateTime dt1 = new DateTime(2020, 1, 1);
-            DateTime dt2 = new DateTime(2020, 1, 1);
-            int flag = 0;
-            int cntChg = 0; // hitung perubahan date 
-            
-            foreach ( var kk in listTestDate) // value pertama dt1 dt2 dari testdate pertama
-            {
-                if(DateTime.TryParse(kk.TestDate, out dt))
-                {
-                    dt1 = dt;
-                    dt2 = dt;
-                    break;
-                }
-            }
-            
-            foreach (var jj in listTestDate)
-            {
-                flag++;
-                if (DateTime.TryParse(jj.TestDate, out dt)) //kolom test date & apply date ada, cek test date lebih dari 2 minggu sejak apply date
-                {
-                    if (flag % 2 == 0) //loop genap
-                    {
-                        dt2 = dt;
-                    }
-                    else
-                    {
-                        dt1 = dt;
-                    }
-                }
-                int isChg = DateTime.Compare(dt1, dt2); // 0 : gaada perubahan
-                if (isChg != 0)
-                {
-                    cntChg++;
-                }
-            }
-            
-            DateTime currentDt = DateTime.Now.Date;
+            //DateTime dt;
+            ////DateTime ndt = new DateTime(2020, 12, 6);
+            //var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
+            //var weekCol = DbContext.GetInstance().GetCollection<WeekSetting>();
+            //var wek = weekCol.FindAll().OrderBy(x => x.StartDate); //find by wek.starDtae > 
+            //var get = projCol.Find(x => x.ReqFormNo == "SHC-R201000007" && x.ReqFormDesc == "HP IE32資料庫調整").ToList(); // find from xProj, where xProj.week < week foreach
+            //var listTestDate = (from a in get join b in wek on a.IdWeek equals b.id  orderby b.StartDate ascending select new { TestDate = a.TestDateEstimate,  b.Week}).ToList();
+            //DateTime dt1 = new DateTime(2020, 1, 1);
+            //DateTime dt2 = new DateTime(2020, 1, 1);
+            //int flag = 0;
+            //int cntChg = 0; // hitung perubahan date 
+            //
+            //foreach ( var kk in listTestDate) // value pertama dt1 dt2 dari testdate pertama
+            //{
+            //    if(DateTime.TryParse(kk.TestDate, out dt))
+            //    {
+            //        dt1 = dt;
+            //        dt2 = dt;
+            //        break;
+            //    }
+            //}
+            //
+            //foreach (var jj in listTestDate)
+            //{
+            //    flag++;
+            //    if (DateTime.TryParse(jj.TestDate, out dt)) //kolom test date & apply date ada, cek test date lebih dari 2 minggu sejak apply date
+            //    {
+            //        if (flag % 2 == 0) //loop genap
+            //        {
+            //            dt2 = dt;
+            //        }
+            //        else
+            //        {
+            //            dt1 = dt;
+            //        }
+            //    }
+            //    int isChg = DateTime.Compare(dt1, dt2); // 0 : gaada perubahan
+            //    if (isChg != 0)
+            //    {
+            //        cntChg++;
+            //    }
+            //}
+            //
+            //DateTime currentDt = DateTime.Now.Date;
             //DateTime getUED;
             //DateTime getApplyDate;
             //int cntErrA = 0;

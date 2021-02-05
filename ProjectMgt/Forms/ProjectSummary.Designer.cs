@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectSummary));
             this.sgProjSum = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
             this.gridColumn1 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.del = new DevComponents.DotNetBar.SuperGrid.GridColumn();
@@ -229,10 +230,11 @@
             this.Controls.Add(this.btBack);
             this.Controls.Add(this.sgListUpload);
             this.Controls.Add(this.sgProjSum);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProjectSummary";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ProjectSummary";
+            this.Text = "Weekly";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.ProjectSummary_Load);
             this.ResumeLayout(false);

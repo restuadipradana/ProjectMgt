@@ -435,7 +435,7 @@
             this.labelX5.Name = "labelX5";
             this.labelX5.Size = new System.Drawing.Size(120, 23);
             this.labelX5.TabIndex = 5;
-            this.labelX5.Text = "Type Week (ex. 2020) :";
+            this.labelX5.Text = "Type Year (ex. 2020) :";
             // 
             // labelX6
             // 

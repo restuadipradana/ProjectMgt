@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Overview));
             this.sgL1 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
             this.gridColumn1 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn2 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
@@ -459,7 +460,7 @@
             this.btSummary.Size = new System.Drawing.Size(138, 25);
             this.btSummary.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btSummary.TabIndex = 5;
-            this.btSummary.Text = "Project Summary";
+            this.btSummary.Text = "View Weekly";
             this.btSummary.Click += new System.EventHandler(this.btSummary_Click);
             // 
             // btRefresh
@@ -502,6 +503,7 @@
             this.Controls.Add(this.btSettings);
             this.Controls.Add(this.btUploadDialog);
             this.Controls.Add(this.superTabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "Overview";
             this.Text = "Overview";
