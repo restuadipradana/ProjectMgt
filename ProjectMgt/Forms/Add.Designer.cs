@@ -50,6 +50,8 @@
             this.btSave = new DevComponents.DotNetBar.ButtonX();
             this.btDelete = new DevComponents.DotNetBar.ButtonX();
             this.labelX10 = new DevComponents.DotNetBar.LabelX();
+            this.labelX11 = new DevComponents.DotNetBar.LabelX();
+            this.tbInputBy = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.SuspendLayout();
             // 
             // richTextBoxEx1
@@ -297,7 +299,7 @@
             this.btSave.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btSave.Location = new System.Drawing.Point(199, 497);
+            this.btSave.Location = new System.Drawing.Point(199, 550);
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(75, 23);
             this.btSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -310,7 +312,7 @@
             this.btDelete.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btDelete.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btDelete.Location = new System.Drawing.Point(290, 497);
+            this.btDelete.Location = new System.Drawing.Point(290, 550);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(75, 23);
             this.btDelete.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -331,11 +333,40 @@
             this.labelX10.TabIndex = 27;
             this.labelX10.Text = "(mm/dd/yyyy)";
             // 
+            // labelX11
+            // 
+            // 
+            // 
+            // 
+            this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX11.Location = new System.Drawing.Point(19, 484);
+            this.labelX11.Name = "labelX11";
+            this.labelX11.Size = new System.Drawing.Size(174, 23);
+            this.labelX11.TabIndex = 28;
+            this.labelX11.Text = "Input By";
+            // 
+            // tbInputBy
+            // 
+            // 
+            // 
+            // 
+            this.tbInputBy.Border.Class = "TextBoxBorder";
+            this.tbInputBy.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbInputBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbInputBy.Location = new System.Drawing.Point(199, 487);
+            this.tbInputBy.Name = "tbInputBy";
+            this.tbInputBy.PreventEnterBeep = true;
+            this.tbInputBy.Size = new System.Drawing.Size(248, 22);
+            this.tbInputBy.TabIndex = 29;
+            // 
             // Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 623);
+            this.Controls.Add(this.tbInputBy);
+            this.Controls.Add(this.labelX11);
             this.Controls.Add(this.labelX10);
             this.Controls.Add(this.btDelete);
             this.Controls.Add(this.btSave);
@@ -389,5 +420,7 @@
         private DevComponents.DotNetBar.ButtonX btSave;
         private DevComponents.DotNetBar.ButtonX btDelete;
         private DevComponents.DotNetBar.LabelX labelX10;
+        private DevComponents.DotNetBar.LabelX labelX11;
+        private DevComponents.DotNetBar.Controls.TextBoxX tbInputBy;
     }
 }

@@ -25,7 +25,9 @@ namespace ProjectMgt.Models
         public string TestDateEstimate { get; set; }
         public string ApplyDate { get; set; }
         public string Memo { get; set; }
+        public string Memo2 { get; set; }
         public string FileName { get; set; }
+        public string CreateBy { get; set; }
         public bool IsNormal { get; set; }
         public Guid IdWeek { get; set; }
         public DateTime CreatedAt { get; set; }

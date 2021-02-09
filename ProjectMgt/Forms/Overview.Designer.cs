@@ -36,6 +36,24 @@
             this.gridColumn4 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn5 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
+            this.superTabControlPanel3 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.sgL3 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
+            this.gridColumn20 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn21 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn22 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn23 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn24 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn25 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn26 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn27 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn28 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn29 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn30 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn31 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn32 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn33 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn35 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.tabL3 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.tabL1 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
@@ -56,23 +74,6 @@
             this.gridColumn15 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn34 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.tabL2 = new DevComponents.DotNetBar.SuperTabItem();
-            this.superTabControlPanel3 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.sgL3 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
-            this.gridColumn20 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn21 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn22 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn23 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn24 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn25 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn26 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn27 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn28 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn29 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn30 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn31 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn32 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn33 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.tabL3 = new DevComponents.DotNetBar.SuperTabItem();
             this.btUploadDialog = new DevComponents.DotNetBar.ButtonX();
             this.btSettings = new DevComponents.DotNetBar.ButtonX();
             this.btSummary = new DevComponents.DotNetBar.ButtonX();
@@ -80,9 +81,9 @@
             this.btReport = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
+            this.superTabControlPanel3.SuspendLayout();
             this.superTabControlPanel1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
-            this.superTabControlPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // sgL1
@@ -154,9 +155,9 @@
             this.superTabControl1.ControlBox.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.superTabControl1.ControlBox.MenuBox,
             this.superTabControl1.ControlBox.CloseBox});
+            this.superTabControl1.Controls.Add(this.superTabControlPanel3);
             this.superTabControl1.Controls.Add(this.superTabControlPanel1);
             this.superTabControl1.Controls.Add(this.superTabControlPanel2);
-            this.superTabControl1.Controls.Add(this.superTabControlPanel3);
             this.superTabControl1.Location = new System.Drawing.Point(12, 12);
             this.superTabControl1.Name = "superTabControl1";
             this.superTabControl1.ReorderTabsEnabled = true;
@@ -171,6 +172,124 @@
             this.tabL3});
             this.superTabControl1.TabStyle = DevComponents.DotNetBar.eSuperTabStyle.VisualStudio2008Dock;
             this.superTabControl1.Text = "superTabControl1";
+            // 
+            // superTabControlPanel3
+            // 
+            this.superTabControlPanel3.Controls.Add(this.sgL3);
+            this.superTabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControlPanel3.Location = new System.Drawing.Point(0, 25);
+            this.superTabControlPanel3.Name = "superTabControlPanel3";
+            this.superTabControlPanel3.Size = new System.Drawing.Size(1219, 591);
+            this.superTabControlPanel3.TabIndex = 0;
+            this.superTabControlPanel3.TabItem = this.tabL3;
+            // 
+            // sgL3
+            // 
+            this.sgL3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sgL3.FilterExprColors.SysFunction = System.Drawing.Color.DarkRed;
+            this.sgL3.Location = new System.Drawing.Point(0, -3);
+            this.sgL3.Name = "sgL3";
+            // 
+            // 
+            // 
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn20);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn21);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn22);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn23);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn24);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn25);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn26);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn27);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn28);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn29);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn30);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn35);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn31);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn32);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn33);
+            this.sgL3.Size = new System.Drawing.Size(1219, 591);
+            this.sgL3.TabIndex = 6;
+            this.sgL3.Text = "superGridControl1";
+            this.sgL3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sgL3_MouseClick);
+            // 
+            // gridColumn20
+            // 
+            this.gridColumn20.Name = "Applicant";
+            this.gridColumn20.Width = 80;
+            // 
+            // gridColumn21
+            // 
+            this.gridColumn21.Name = "IT PIC";
+            this.gridColumn21.Width = 80;
+            // 
+            // gridColumn22
+            // 
+            this.gridColumn22.FillWeight = 130;
+            this.gridColumn22.Name = "Request Form No.";
+            // 
+            // gridColumn23
+            // 
+            this.gridColumn23.Name = "Request Form Description";
+            this.gridColumn23.Width = 300;
+            // 
+            // gridColumn24
+            // 
+            this.gridColumn24.Name = "Stage";
+            this.gridColumn24.Width = 95;
+            // 
+            // gridColumn25
+            // 
+            this.gridColumn25.Name = "Expected Finish Date";
+            // 
+            // gridColumn26
+            // 
+            this.gridColumn26.Name = "Estimate Stage Finish";
+            // 
+            // gridColumn27
+            // 
+            this.gridColumn27.Name = "Actual Finish Date";
+            // 
+            // gridColumn28
+            // 
+            this.gridColumn28.Name = "IT Est. give Test Date";
+            // 
+            // gridColumn29
+            // 
+            this.gridColumn29.Name = "Apply Date";
+            // 
+            // gridColumn30
+            // 
+            this.gridColumn30.Name = "Memo";
+            this.gridColumn30.Width = 430;
+            // 
+            // gridColumn31
+            // 
+            this.gridColumn31.Name = "Week";
+            this.gridColumn31.Width = 80;
+            // 
+            // gridColumn32
+            // 
+            this.gridColumn32.Name = "Upload Time";
+            this.gridColumn32.Width = 120;
+            // 
+            // gridColumn33
+            // 
+            this.gridColumn33.Name = "id";
+            this.gridColumn33.Visible = false;
+            // 
+            // gridColumn35
+            // 
+            this.gridColumn35.Name = "Memo 2";
+            this.gridColumn35.Width = 430;
+            // 
+            // tabL3
+            // 
+            this.tabL3.AttachedControl = this.superTabControlPanel3;
+            this.tabL3.GlobalItem = false;
+            this.tabL3.Name = "tabL3";
+            this.tabL3.Text = "Stage";
             // 
             // superTabControlPanel1
             // 
@@ -310,117 +429,6 @@
             this.tabL2.Text = "SubOv";
             this.tabL2.Click += new System.EventHandler(this.tabL2_Click);
             // 
-            // superTabControlPanel3
-            // 
-            this.superTabControlPanel3.Controls.Add(this.sgL3);
-            this.superTabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControlPanel3.Location = new System.Drawing.Point(0, 25);
-            this.superTabControlPanel3.Name = "superTabControlPanel3";
-            this.superTabControlPanel3.Size = new System.Drawing.Size(1219, 591);
-            this.superTabControlPanel3.TabIndex = 0;
-            this.superTabControlPanel3.TabItem = this.tabL3;
-            // 
-            // sgL3
-            // 
-            this.sgL3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sgL3.FilterExprColors.SysFunction = System.Drawing.Color.DarkRed;
-            this.sgL3.Location = new System.Drawing.Point(0, -3);
-            this.sgL3.Name = "sgL3";
-            // 
-            // 
-            // 
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn20);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn21);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn22);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn23);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn24);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn25);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn26);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn27);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn28);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn29);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn30);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn31);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn32);
-            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn33);
-            this.sgL3.Size = new System.Drawing.Size(1219, 591);
-            this.sgL3.TabIndex = 6;
-            this.sgL3.Text = "superGridControl1";
-            // 
-            // gridColumn20
-            // 
-            this.gridColumn20.Name = "Applicant";
-            this.gridColumn20.Width = 80;
-            // 
-            // gridColumn21
-            // 
-            this.gridColumn21.Name = "IT PIC";
-            this.gridColumn21.Width = 80;
-            // 
-            // gridColumn22
-            // 
-            this.gridColumn22.FillWeight = 130;
-            this.gridColumn22.Name = "Request Form No.";
-            // 
-            // gridColumn23
-            // 
-            this.gridColumn23.Name = "Request Form Description";
-            this.gridColumn23.Width = 300;
-            // 
-            // gridColumn24
-            // 
-            this.gridColumn24.Name = "Stage";
-            this.gridColumn24.Width = 95;
-            // 
-            // gridColumn25
-            // 
-            this.gridColumn25.Name = "Expected Finish Date";
-            // 
-            // gridColumn26
-            // 
-            this.gridColumn26.Name = "Estimate Stage Finish";
-            // 
-            // gridColumn27
-            // 
-            this.gridColumn27.Name = "Actual Finish Date";
-            // 
-            // gridColumn28
-            // 
-            this.gridColumn28.Name = "IT Est. give Test Date";
-            // 
-            // gridColumn29
-            // 
-            this.gridColumn29.Name = "Apply Date";
-            // 
-            // gridColumn30
-            // 
-            this.gridColumn30.Name = "Memo";
-            this.gridColumn30.Width = 430;
-            // 
-            // gridColumn31
-            // 
-            this.gridColumn31.Name = "Week";
-            this.gridColumn31.Width = 80;
-            // 
-            // gridColumn32
-            // 
-            this.gridColumn32.Name = "Upload Time";
-            this.gridColumn32.Width = 120;
-            // 
-            // gridColumn33
-            // 
-            this.gridColumn33.Name = "id";
-            this.gridColumn33.Visible = false;
-            // 
-            // tabL3
-            // 
-            this.tabL3.AttachedControl = this.superTabControlPanel3;
-            this.tabL3.GlobalItem = false;
-            this.tabL3.Name = "tabL3";
-            this.tabL3.Text = "Stage";
-            // 
             // btUploadDialog
             // 
             this.btUploadDialog.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
@@ -511,9 +519,9 @@
             this.Load += new System.EventHandler(this.Overview_Load);
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).EndInit();
             this.superTabControl1.ResumeLayout(false);
+            this.superTabControlPanel3.ResumeLayout(false);
             this.superTabControlPanel1.ResumeLayout(false);
             this.superTabControlPanel2.ResumeLayout(false);
-            this.superTabControlPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -569,5 +577,6 @@
         private DevComponents.DotNetBar.ButtonX btRefresh;
         private DevComponents.DotNetBar.ButtonX btReport;
         private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn34;
+        private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn35;
     }
 }

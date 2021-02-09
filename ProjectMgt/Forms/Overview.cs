@@ -135,6 +135,23 @@ namespace ProjectMgt.Forms
 
         }
 
+        //klik kanan di L3
+        private void sgL3_MouseClick(object sender, MouseEventArgs e)
+        {
+            var elmnPt = sgL3.GetElementAt(new Point(e.X, e.Y));
+            var val = elmnPt.Parent;
+
+            if (e.Button == MouseButtons.Right && val != null)
+            {
+                var ridx = elmnPt.GridPanel.ActiveRow.RowIndex;
+                var idcell = elmnPt.GridPanel.GetCell(ridx, 14).Value?.ToString();
+                _id = Guid.Parse(idcell);
+                var m = new ContextMenu();
+                m.MenuItems.Add(new MenuItem("&Add Memo 2", (o, args) => new Add(idcell, 3).ShowDialog(this)));
+                m.Show(sgL3, new Point(e.X, e.Y));
+            }
+        }
+
 
 
         //----------------fun------------------
@@ -376,6 +393,7 @@ namespace ProjectMgt.Forms
                              c.TestDateEstimate,
                              c.ApplyDate,
                              c.Memo,
+                             c.Memo2,
                              c.CreatedAt,
                              c.id,
                              d.Week
@@ -395,6 +413,7 @@ namespace ProjectMgt.Forms
                 row.Cells.Add(new GridCell(DateTime.TryParse(l3.TestDateEstimate, out dt) ? Convert.ToDateTime(l3.TestDateEstimate).ToString("MM/dd/yyyy") : l3.TestDateEstimate));
                 row.Cells.Add(new GridCell(DateTime.TryParse(l3.ApplyDate, out dt) ? Convert.ToDateTime(l3.ApplyDate).ToString("MM/dd/yyyy") : l3.ApplyDate));
                 row.Cells.Add(new GridCell(l3.Memo));
+                row.Cells.Add(new GridCell(l3.Memo2));
                 row.Cells.Add(new GridCell(l3.Week));
                 row.Cells.Add(new GridCell(l3.CreatedAt));
                 row.Cells.Add(new GridCell(l3.id));
@@ -413,6 +432,7 @@ namespace ProjectMgt.Forms
                 row.Cells[10].AllowEdit = false;
                 row.Cells[11].AllowEdit = false;
                 row.Cells[12].AllowEdit = false;
+                row.Cells[13].AllowEdit = false;
             }
             sgL3.DefaultVisualStyles.CellStyles.Default.AllowWrap = DevComponents.DotNetBar.SuperGrid.Style.Tbool.True;
             tabL3.Text = selected.Stage;
@@ -596,14 +616,25 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["I" + (row + 1)].Formula = "I" + row + "/E" + row;
                         workSheet.Cells["E" + (row + 1)].Formula = "SUM(F" + (row + 1) + ":I" + (row + 1) + ")";
                         workSheet.Cells[(row + 1), 5, (row + 1), 9].Style.Numberformat.Format = "0%";
-                        
                         workSheet.Cells.AutoFitColumns(0);
+                        row = row + 5;
+                        workSheet.Cells["D" + row].Value = "A.進度 :";
+                        workSheet.Cells["D" + (row + 2)].Value = "B.資料 :";
+                        workSheet.Cells["D" + (row + 3)].Value = "C.格式 :";
+                        workSheet.Cells["D" + (row + 4)].Value = "D.更改 :";
+                        workSheet.Cells["E" + row].Value = "“IT Give test date” field has been over two weeks or empty over two weeks from “apply date”.";
+                        workSheet.Cells["E" + (row + 1)].Value = "“Apply date” has been over two weeks from current date";
+                        workSheet.Cells["E" + (row + 2)].Value = "“Actual Finish Stage” field has a date value";
+                        workSheet.Cells["E" + (row + 3)].Value = "“IT Give test date” has been changed 3 times or more in one project";
+
+                        
                         workSheet.Cells[2, 1, 2, 3].AutoFilter = true;
                         workSheet.View.FreezePanes(3, 4);
                         package.SaveAs(myStream);
 
                     }
                     myStream.Close();
+                    MessageBox.Show("Generate report success!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -797,6 +828,7 @@ namespace ProjectMgt.Forms
 
         }
 
+        
     }
     public class L1list
     {

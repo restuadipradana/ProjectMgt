@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ProjectMgt.Forms
 {
-    //THIS FORM IS FOR ADD, EDIT, OR DELETE EVERY USERINPUT DATA. 1 for add, 2 for edit or delete
+    //THIS FORM IS FOR ADD, EDIT, OR DELETE EVERY USERINPUT DATA. 1 for add, 2 for edit or delete, 3 for add memo 2
     public partial class Add : Form
     {
         public Add()
@@ -56,8 +56,25 @@ namespace ProjectMgt.Forms
                 tbStageEstFinish.Text = proj.StageEstimateFinish;
                 tbStageActFinish.Text = proj.StageActualFinish;
                 tbITGiveTestDate.Text = proj.TestDateEstimate;
+                tbInputBy.Text = proj.CreateBy;
                 tbApplyDate.Text = proj.ApplyDate;
                 btDelete.Visible = true;
+            }
+            else if (_kind == 3)
+            {
+                labelX9.Text = "Memo 2";
+                tbUserExpectDate.Text = proj.UserExpectedDate;
+                tbStageEstFinish.Text = proj.StageEstimateFinish;
+                tbStageActFinish.Text = proj.StageActualFinish;
+                tbITGiveTestDate.Text = proj.TestDateEstimate;
+                tbApplyDate.Text = proj.ApplyDate;
+                tbUserExpectDate.Enabled = false;
+                tbStageEstFinish.Enabled = false;
+                tbITGiveTestDate.Enabled = false;
+                tbApplyDate.Enabled = false;
+                tbStageActFinish.Enabled = false;
+                comboBoxEx1.Enabled = false;
+                tbInputBy.Enabled = false;
             }
             
             
@@ -66,61 +83,72 @@ namespace ProjectMgt.Forms
 
         private void btSave_Click(object sender, EventArgs e)
         {
+            var userinput = tbInputBy.Text;
             var stg = ((ComboItem)comboBoxEx1.SelectedItem);
             var dt = DateTime.Now;
             var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
             var colweek = DbContext.GetInstance().GetCollection<WeekSetting>();
             var proj = projCol.FindById(_id);
             var week = colweek.Find(x => x.StartDate <= dt && x.EndDate >= dt.Date).SingleOrDefault();
-            if (week != null)
+            if (_kind == 3)
             {
-                if (stg != null)
-                {
-                    ProjectList pl = new ProjectList()
-                    {
-                        System = proj.System,
-                        ErrKind = proj.ErrKind,
-                        Desc = proj.Desc,
-                        Applicant = proj.Applicant,
-                        PIC = proj.PIC,
-                        ReqFormNo = proj.ReqFormNo,
-                        ReqFormDesc = proj.ReqFormDesc,
-                        Stage = stg.Value.ToString(),
-                        UserExpectedDate = tbUserExpectDate.Text,
-                        StageEstimateFinish = tbStageEstFinish.Text,
-                        StageActualFinish = tbStageActFinish.Text,
-                        TestDateEstimate = tbITGiveTestDate.Text,
-                        ApplyDate = tbApplyDate.Text,
-                        Memo = richTextBoxEx1.Text,
-                        FileName = "userinput",
-                        IsNormal = true,
-                        IdWeek = week.id,
-                        CreatedAt = DateTime.Now
-                    };
-                    if(_kind == 1)
-                    {
-                        projCol.Insert(pl);
-                        this.Close();
-                    }
-                    else
-                    {
-                        projCol.Update(_id, pl);
-                        this.Close();
-                    }
-                    //Overview ov = new Overview();
-                    //ov.Get2List();
-
-                }
-                else
-                {
-                    MessageBox.Show("Select Stage first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                proj.Memo2 = richTextBoxEx1.Text;
+                projCol.Update(proj);
+                this.Close();
             }
             else
             {
-                MessageBox.Show("Invalid Week, please generate week first in Setting", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                if (week != null)
+                {
+                    if (stg != null && userinput != "")
+                    {
 
+                        ProjectList pl = new ProjectList()
+                        {
+                            System = proj.System,
+                            ErrKind = proj.ErrKind,
+                            Desc = proj.Desc,
+                            Applicant = proj.Applicant,
+                            PIC = proj.PIC,
+                            ReqFormNo = proj.ReqFormNo,
+                            ReqFormDesc = proj.ReqFormDesc,
+                            Stage = stg.Value.ToString(),
+                            UserExpectedDate = tbUserExpectDate.Text,
+                            StageEstimateFinish = tbStageEstFinish.Text,
+                            StageActualFinish = tbStageActFinish.Text,
+                            TestDateEstimate = tbITGiveTestDate.Text,
+                            ApplyDate = tbApplyDate.Text,
+                            Memo = richTextBoxEx1.Text,
+                            FileName = "userinput",
+                            CreateBy = tbInputBy.Text,
+                            IsNormal = true,
+                            IdWeek = week.id, //perlu diganti kalo update, jangan update week nya
+                            CreatedAt = DateTime.Now
+                        };
+
+                        if (_kind == 1)
+                        {
+                            projCol.Insert(pl);
+                            this.Close();
+                        }
+                        else
+                        {
+                            projCol.Update(_id, pl);
+                            this.Close();
+                        }
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Select Stage and fill \"InputBy\" field first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Week, please generate week first in Setting", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void btDelete_Click(object sender, EventArgs e)
