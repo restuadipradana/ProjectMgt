@@ -49,10 +49,10 @@
             this.gridColumn28 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn29 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn30 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
+            this.gridColumn35 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn31 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn32 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.gridColumn33 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
-            this.gridColumn35 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             this.tabL3 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.tabL1 = new DevComponents.DotNetBar.SuperTabItem();
@@ -79,6 +79,7 @@
             this.btSummary = new DevComponents.DotNetBar.ButtonX();
             this.btRefresh = new DevComponents.DotNetBar.ButtonX();
             this.btReport = new DevComponents.DotNetBar.ButtonX();
+            this.gridColumn36 = new DevComponents.DotNetBar.SuperGrid.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel3.SuspendLayout();
@@ -208,6 +209,7 @@
             this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn35);
             this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn31);
             this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn32);
+            this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn36);
             this.sgL3.PrimaryGrid.Columns.Add(this.gridColumn33);
             this.sgL3.Size = new System.Drawing.Size(1219, 591);
             this.sgL3.TabIndex = 6;
@@ -264,6 +266,11 @@
             this.gridColumn30.Name = "Memo";
             this.gridColumn30.Width = 430;
             // 
+            // gridColumn35
+            // 
+            this.gridColumn35.Name = "Memo 2";
+            this.gridColumn35.Width = 430;
+            // 
             // gridColumn31
             // 
             this.gridColumn31.Name = "Week";
@@ -278,11 +285,6 @@
             // 
             this.gridColumn33.Name = "id";
             this.gridColumn33.Visible = false;
-            // 
-            // gridColumn35
-            // 
-            this.gridColumn35.Name = "Memo 2";
-            this.gridColumn35.Width = 430;
             // 
             // tabL3
             // 
@@ -499,6 +501,10 @@
             this.btReport.Text = "Generate Report";
             this.btReport.Click += new System.EventHandler(this.btReport_Click);
             // 
+            // gridColumn36
+            // 
+            this.gridColumn36.Name = "Add By";
+            // 
             // Overview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -578,5 +584,6 @@
         private DevComponents.DotNetBar.ButtonX btReport;
         private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn34;
         private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn35;
+        private DevComponents.DotNetBar.SuperGrid.GridColumn gridColumn36;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DevComponents.DotNetBar.SuperGrid;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using ProjectMgt.Helpers;
 using ProjectMgt.Models;
 using System;
@@ -144,10 +145,10 @@ namespace ProjectMgt.Forms
             if (e.Button == MouseButtons.Right && val != null)
             {
                 var ridx = elmnPt.GridPanel.ActiveRow.RowIndex;
-                var idcell = elmnPt.GridPanel.GetCell(ridx, 14).Value?.ToString();
+                var idcell = elmnPt.GridPanel.GetCell(ridx, 15).Value?.ToString();
                 _id = Guid.Parse(idcell);
                 var m = new ContextMenu();
-                m.MenuItems.Add(new MenuItem("&Add Memo 2", (o, args) => new Add(idcell, 3).ShowDialog(this)));
+                m.MenuItems.Add(new MenuItem("&Add / Edit Memo 2", (o, args) => new Add(idcell, 3).ShowDialog(this)));
                 m.Show(sgL3, new Point(e.X, e.Y));
             }
         }
@@ -395,6 +396,7 @@ namespace ProjectMgt.Forms
                              c.Memo,
                              c.Memo2,
                              c.CreatedAt,
+                             c.CreateBy,
                              c.id,
                              d.Week
                          }).ToArray();
@@ -416,6 +418,7 @@ namespace ProjectMgt.Forms
                 row.Cells.Add(new GridCell(l3.Memo2));
                 row.Cells.Add(new GridCell(l3.Week));
                 row.Cells.Add(new GridCell(l3.CreatedAt));
+                row.Cells.Add(new GridCell(l3.CreateBy));
                 row.Cells.Add(new GridCell(l3.id));
                 row.RowHeight = 0;
                 sgL3.PrimaryGrid.Rows.Add(row);
@@ -433,6 +436,7 @@ namespace ProjectMgt.Forms
                 row.Cells[11].AllowEdit = false;
                 row.Cells[12].AllowEdit = false;
                 row.Cells[13].AllowEdit = false;
+                row.Cells[14].AllowEdit = false;
             }
             sgL3.DefaultVisualStyles.CellStyles.Default.AllowWrap = DevComponents.DotNetBar.SuperGrid.Style.Tbool.True;
             tabL3.Text = selected.Stage;
@@ -442,6 +446,7 @@ namespace ProjectMgt.Forms
         private void GetReport()
         {
             List<Reports> report = new List<Reports>();
+            List<DetailReports> detailReport = new List<DetailReports>();
             var projCol = DbContext.GetInstance().GetCollection<ProjectList>();
             var weekCol = DbContext.GetInstance().GetCollection<WeekSetting>();
             var getAll = projCol.FindAll();
@@ -479,16 +484,52 @@ namespace ProjectMgt.Forms
                                 if ((getUED - getApplyDate).TotalDays > 14)
                                 {
                                     cntErrA++;
+                                    detailReport.Add(new DetailReports()
+                                    {
+                                        Weekly = week.Week,
+                                        System = proj,
+                                        Error = "A",
+                                        Applicant = eproj.Applicant,
+                                        PIC = eproj.PIC,
+                                        ReqFormNo = eproj.ReqFormNo,
+                                        ReqFormDesc = eproj.ReqFormDesc,
+                                        Stage = eproj.Stage,
+                                        Memo = eproj.Memo
+                                    });
                                 }
                             }
                             else if ((currentDt - getApplyDate).TotalDays > 14) // kolom test date kosong tapi ada apply date, cek apply date lebih dr 2 minggu
                             {
                                 cntErrA++;
+                                detailReport.Add(new DetailReports()
+                                {
+                                    Weekly = week.Week,
+                                    System = proj,
+                                    Error = "A",
+                                    Applicant = eproj.Applicant,
+                                    PIC = eproj.PIC,
+                                    ReqFormNo = eproj.ReqFormNo,
+                                    ReqFormDesc = eproj.ReqFormDesc,
+                                    Stage = eproj.Stage,
+                                    Memo = eproj.Memo
+                                });
                             }
                         }
                         else //kolom apply date kosong
                         {
                             cntErrA++;
+                            detailReport.Add(new DetailReports()
+                            {
+                                Weekly = week.Week,
+                                System = proj,
+                                Error = "A",
+                                Applicant = eproj.Applicant,
+                                PIC = eproj.PIC,
+                                ReqFormNo = eproj.ReqFormNo,
+                                ReqFormDesc = eproj.ReqFormDesc,
+                                Stage = eproj.Stage,
+                                Memo = eproj.Memo
+                            });
                         }
 
 
@@ -496,6 +537,18 @@ namespace ProjectMgt.Forms
                         if (DateTime.TryParse(eproj.StageActualFinish, out dt))
                         {
                             cntErrB++;
+                            detailReport.Add(new DetailReports()
+                            {
+                                Weekly = week.Week,
+                                System = proj,
+                                Error = "B",
+                                Applicant = eproj.Applicant,
+                                PIC = eproj.PIC,
+                                ReqFormNo = eproj.ReqFormNo,
+                                ReqFormDesc = eproj.ReqFormDesc,
+                                Stage = eproj.Stage,
+                                Memo = eproj.Memo
+                            });
                         }
 
 
@@ -541,6 +594,18 @@ namespace ProjectMgt.Forms
                         if (cntChg >= 3)
                         {
                             cntErrC++;
+                            detailReport.Add(new DetailReports()
+                            {
+                                Weekly = week.Week,
+                                System = proj,
+                                Error = "C",
+                                Applicant = eproj.Applicant,
+                                PIC = eproj.PIC,
+                                ReqFormNo = eproj.ReqFormNo,
+                                ReqFormDesc = eproj.ReqFormDesc,
+                                Stage = eproj.Stage,
+                                Memo = eproj.Memo
+                            });
                         }
 
 
@@ -562,6 +627,7 @@ namespace ProjectMgt.Forms
                 }
             }
             var reports = report.ToList();
+            var detailReports = detailReport.ToList();
 
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -577,6 +643,8 @@ namespace ProjectMgt.Forms
                     using (var package = new ExcelPackage())
                     {
                         var workSheet = package.Workbook.Worksheets.Add("Summary");
+                        var workSheet2 = package.Workbook.Worksheets.Add("Details");
+
                         workSheet.Cells["A2"].Value = "Weekly";
                         workSheet.Cells["B2"].Value = "Date";
                         workSheet.Cells["C2"].Value = "System";
@@ -587,7 +655,19 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["H2"].Value = "C.(格式)"; // C.(格式) Error C
                         workSheet.Cells["I2"].Value = "D.(更改)"; // D.(更改) Error D
 
+                        workSheet2.Cells["A2"].Value = "Weekly";
+                        workSheet2.Cells["B2"].Value = "System";
+                        workSheet2.Cells["C2"].Value = "Error";
+                        workSheet2.Cells["D2"].Value = "Applicant"; 
+                        workSheet2.Cells["E2"].Value = "PIC"; 
+                        workSheet2.Cells["F2"].Value = "Request Form No"; 
+                        workSheet2.Cells["G2"].Value = "Request Form Desc";
+                        workSheet2.Cells["H2"].Value = "Stage"; 
+                        workSheet2.Cells["I2"].Value = "Memo";
+                        workSheet2.Cells["A2:I2"].Style.Font.Bold = true;
+
                         int row = 3;
+                        int row2 = 3;
                         foreach (var reportx in reports)
                         {
                             workSheet.Cells["A" + row].Value = reportx.Week;
@@ -599,6 +679,19 @@ namespace ProjectMgt.Forms
                             workSheet.Cells["G" + row].Value = reportx.TotalErrorB;
                             workSheet.Cells["H" + row].Value = reportx.TotalErrorC;
                             row++;
+                        }
+                        foreach (var detailx in detailReports)
+                        {
+                            workSheet2.Cells["A" + row2].Value = detailx.Weekly;
+                            workSheet2.Cells["B" + row2].Value = detailx.System;
+                            workSheet2.Cells["C" + row2].Value = detailx.Error;
+                            workSheet2.Cells["D" + row2].Value = detailx.Applicant;
+                            workSheet2.Cells["E" + row2].Value = detailx.PIC;
+                            workSheet2.Cells["F" + row2].Value = detailx.ReqFormNo;
+                            workSheet2.Cells["G" + row2].Value = detailx.ReqFormDesc;
+                            workSheet2.Cells["H" + row2].Value = detailx.Stage;
+                            workSheet2.Cells["I" + row2].Value = detailx.Memo;
+                            row2++;
                         }
                         workSheet.Cells["C" + row].Value = "Total";
                         workSheet.Cells["D" + row].Formula = "SUM(D3:D" + (row - 1) + ")";
@@ -617,6 +710,11 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["E" + (row + 1)].Formula = "SUM(F" + (row + 1) + ":I" + (row + 1) + ")";
                         workSheet.Cells[(row + 1), 5, (row + 1), 9].Style.Numberformat.Format = "0%";
                         workSheet.Cells.AutoFitColumns(0);
+                        workSheet2.Cells.AutoFitColumns(0);
+                        workSheet2.Cells.Style.WrapText = true;
+                        workSheet2.Cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        workSheet2.Column(7).Width = 50;
+                        workSheet2.Column(6).Width = 20;
                         row = row + 5;
                         workSheet.Cells["D" + row].Value = "A.進度 :";
                         workSheet.Cells["D" + (row + 2)].Value = "B.資料 :";
@@ -626,9 +724,10 @@ namespace ProjectMgt.Forms
                         workSheet.Cells["E" + (row + 1)].Value = "“Apply date” has been over two weeks from current date";
                         workSheet.Cells["E" + (row + 2)].Value = "“Actual Finish Stage” field has a date value";
                         workSheet.Cells["E" + (row + 3)].Value = "“IT Give test date” has been changed 3 times or more in one project";
+                        workSheet.Cells["D" + row + ":M" + (row + 4)].Style.Border.BorderAround(ExcelBorderStyle.Thick);
 
-                        
                         workSheet.Cells[2, 1, 2, 3].AutoFilter = true;
+                        workSheet2.Cells[2, 1, 2, 9].AutoFilter = true;
                         workSheet.View.FreezePanes(3, 4);
                         package.SaveAs(myStream);
 
@@ -849,5 +948,18 @@ namespace ProjectMgt.Forms
         public int? TotalErrorA { get; set; }
         public int? TotalErrorB { get; set; }
         public int? TotalErrorC { get; set; }
+    }
+
+    public class DetailReports
+    {
+        public string Weekly { get; set; }
+        public string System { get; set; }
+        public string Error { get; set; }
+        public string Applicant { get; set; }
+        public string PIC { get; set; }
+        public string ReqFormNo { get; set; }
+        public string ReqFormDesc { get; set; }
+        public string Stage { get; set; }
+        public string Memo { get; set; }
     }
 }

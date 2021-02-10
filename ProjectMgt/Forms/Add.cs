@@ -48,7 +48,6 @@ namespace ProjectMgt.Forms
 
             lbReqFormNo.Text = proj.ReqFormNo;
             lbReqFormDesc.Text = proj.ReqFormDesc;
-            richTextBoxEx1.Text = proj.Memo;
             btDelete.Visible = false;
             if (_kind == 2)
             {
@@ -56,6 +55,7 @@ namespace ProjectMgt.Forms
                 tbStageEstFinish.Text = proj.StageEstimateFinish;
                 tbStageActFinish.Text = proj.StageActualFinish;
                 tbITGiveTestDate.Text = proj.TestDateEstimate;
+                richTextBoxEx1.Text = proj.Memo;
                 tbInputBy.Text = proj.CreateBy;
                 tbApplyDate.Text = proj.ApplyDate;
                 btDelete.Visible = true;
@@ -63,11 +63,13 @@ namespace ProjectMgt.Forms
             else if (_kind == 3)
             {
                 labelX9.Text = "Memo 2";
+                richTextBoxEx1.Text = proj.Memo2;
                 tbUserExpectDate.Text = proj.UserExpectedDate;
                 tbStageEstFinish.Text = proj.StageEstimateFinish;
                 tbStageActFinish.Text = proj.StageActualFinish;
                 tbITGiveTestDate.Text = proj.TestDateEstimate;
                 tbApplyDate.Text = proj.ApplyDate;
+                tbInputBy.Text = proj.CreateBy;
                 tbUserExpectDate.Enabled = false;
                 tbStageEstFinish.Enabled = false;
                 tbITGiveTestDate.Enabled = false;
